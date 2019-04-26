@@ -1,5 +1,7 @@
 Mini example webapp for tutelar auth microservice.
 
+[SWAGGER](https://app.swaggerhub.com/apis/Ksisu/TodoExampleBackend/1)
+
 ```sh
 docker run \
   -d \
