@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from gevent.pywsgi import WSGIServer
 from pymongo import MongoClient
 import os
@@ -13,6 +14,7 @@ database = mongo_client.get_default_database()
 todo_collection = database.todos
 
 app = Flask(__name__)
+CORS(app)
 
 
 def db_list(user_id):
