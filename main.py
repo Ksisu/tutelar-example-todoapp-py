@@ -6,7 +6,7 @@ import os
 import jwt
 
 version = os.getenv("VERSION", "DEV")
-jwt_secret = os.getenv("TOKEN", "secret")
+jwt_secret = os.getenv("JWT_SECRET", "secret")
 mongo_uri = os.getenv("DB_URI", "mongodb://localhost/todoapp")
 
 mongo_client = MongoClient(mongo_uri)

@@ -1,0 +1,35 @@
+version: '3'
+services:
+  todobackend:
+    build: .
+    environment:
+      DB_URI: "mongodb://mongo/todoapp"
+      JWT_SECRET: "secret"
+    depends_on:
+      - mongo
+  tutelar:
+    image: teamwanari/tutelar
+    environment:
+      DATABASE_TYPE: "mongo"
+      DB_URI: "mongodb://mongo/todoapp"
+      MODULES_ENABLED: "basic"
+      JWT_SECRET: "secret"
+      TRACER_CLIENT: "off"
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:4.0.9
+    volumes:
+      - ./scripts/database/tutelar.js:/docker-entrypoint-initdb.d/tutelar.js:ro
+      - ./scripts/database/todobackend.js:/docker-entrypoint-initdb.d/todobackend.js:ro
+  nginx:
+    image: nginx:stable-alpine
+    volumes:
+      - ./scripts/nginx/proxy.conf:/etc/nginx/conf.d/default.conf
+      - ./scripts/nginx/cert.key:/etc/nginx/ssl/cert.key
+      - ./scripts/nginx/cert.pem:/etc/nginx/ssl/cert.pem
+    ports:
+      - 9443:9443
+    depends_on:
+      - todobackend
+      - tutelar
